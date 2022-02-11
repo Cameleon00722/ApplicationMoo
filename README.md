@@ -28,3 +28,6 @@ trait sans flêche = navigation dans les 2 sens
 diag de cas d'utilisation 
 
 
+***«  si vous arrivez pas parfaitement pendant la semaine de vacances en 1 j changer de vocation »***
+
+laure 2022
