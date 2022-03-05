@@ -1,4 +1,4 @@
-package com.company;
+package  proj;
 
 public class CoupInvalideException extends Exception {
 
