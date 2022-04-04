@@ -4,7 +4,7 @@ import com.company.Main2.ModeGame;
 import com.company.elements.Grille;
 import com.company.elements.IControleur;
 import com.company.elements.Ihm2;
-import com.company.ia.ArtificialIntelligenceImpl;
+import com.company.ia.ArtificialIntelligenceImpl_P4;
 import com.company.ia.ArtificialIntelligence_P4;
 
 public class Controleur_P4 implements IControleur {
@@ -20,84 +20,6 @@ public class Controleur_P4 implements IControleur {
     public Ihm2 getMonIhm() {
         return monIhm;
     }
-
-
-    /*public int saisie_jeu_valide(String entree){
-        int a=-1;
-        try{
-            a=Integer.parseInt(entree);
-        }catch(NumberFormatException e){
-            getMonIhm().afficherMsg("Format incorrect");
-        }
-
-        return a;
-    }*/
-
-    // méthodes pour le Nim
-    /*public int getNbAllumettes(String coup){
-        return Integer.parseInt(String.valueOf(coup.charAt(2)));
-    }
-    public int getNbTas(String coup){
-        return Integer.parseInt(String.valueOf(coup.charAt(0)));
-    }
-    public boolean saisieValide(String coup,int y){
-        try{
-            if(coup.length()!=3){
-
-                return false;
-            }
-            int a=Integer.parseInt(String.valueOf(coup.charAt(0)));
-
-            int c=Integer.parseInt(String.valueOf(coup.charAt(2)));
-
-            if(a >=1 && c>0 && c<=y && coup.charAt(1)==' '){
-
-                return true;
-            }
-
-        }catch(NumberFormatException e){
-            getMonIhm().afficherMsg("Format incorrect");
-        }
-        getMonIhm().afficherMsg("Nombre incorrect");
-        return false;
-
-    }
-    public boolean nbTasValide(String entree){
-        try{
-            int a = Integer.parseInt(entree);
-            if(a>0){
-                return true;
-            }
-        }catch(NumberFormatException e){
-            getMonIhm().afficherMsg("Format incorrect");
-        }
-        return false;
-    }
-    public int coupmaxvalide(){
-        boolean continuer_saisie_nb_max = false;
-        int coupmax=0;
-        String f ;
-
-        while(!continuer_saisie_nb_max){
-            try{
-                f =getMonIhm().demandeNbmaxcoup();
-                if (f.equals("0")){
-                    coupmax = 3;
-                }else {
-                    coupmax = Integer.parseInt(f);
-
-                }
-            }catch(NumberFormatException e){
-                getMonIhm().afficherMsg("Format incorrect");
-            }
-            if(coupmax>0){
-                continuer_saisie_nb_max=true;
-            }
-        }
-        return coupmax;
-    }*/
-
-
 
     public void jouer() {
 
@@ -136,7 +58,7 @@ public class Controleur_P4 implements IControleur {
             }
 
             Grille grille_P4 = new Grille(7,7);
-            ArtificialIntelligenceImpl<Grille> ia = new ArtificialIntelligence_P4() ;
+            ArtificialIntelligenceImpl_P4<Grille> ia = new ArtificialIntelligence_P4() ;
             
             
             int i=0;
@@ -182,7 +104,7 @@ public class Controleur_P4 implements IControleur {
                     	if(modeGame == ModeGame.SOLO) {
                     		// On prend la meilleure grille pouvant être
                     		// jouée par l'IA
-                    		grille_P4 = ia.getBestGrid(grille_P4) ;
+                    		grille_P4 = ia.IA_retour(grille_P4) ;
                     		getMonIhm().afficherMsg(">> L'IA a joué son coup !");
                     		i++ ;
                     		continue ;
@@ -226,10 +148,11 @@ public class Controleur_P4 implements IControleur {
                     break;
                 }
             }
-            
-            System.out.println("------");
-            System.out.println(" ");
-            System.out.println(" ");
+            getMonIhm().afficherMsg("------");
+            getMonIhm().afficherMsg("");
+            getMonIhm().afficherMsg("");
+
+
             getMonIhm().afficherlaGrille(grille_P4.toString()) ;
 
             if(grille_P4.check_all_coup_gagnant()){

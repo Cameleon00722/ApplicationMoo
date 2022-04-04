@@ -1,7 +1,7 @@
 package com.company.ia;
 
 import com.company.elements.Grille;
-import com.company.ia.ArtificialIntelligenceImpl.TypeCoup;
+import com.company.ia.ArtificialIntelligenceImpl_P4.TypeCoup;
 
 public class CoupIA implements Comparable<CoupIA> {
 	

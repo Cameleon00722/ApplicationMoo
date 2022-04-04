@@ -24,9 +24,6 @@ public class Main2 {
                 //dérouler le P4
             }
         }
-        
-        
-        
 
         /*  IA 	*/
         String joueAvecUneIA = "" ;
@@ -36,21 +33,16 @@ public class Main2 {
         	joueAvecUneIA = ihm.demandeIA() ;
         	if(joueAvecUneIA.equalsIgnoreCase("1")) type = ModeGame.SOLO ;
         }
-        /*		*/
-        
-        
-        
-        
+
         Contexte_controleur le_jeu;
         if(jeu==1){
-             le_jeu = new Contexte_controleur(new Controleur_Nim(ihm));
+             le_jeu = new Contexte_controleur(new Controleur_Nim(ihm,type));
         }else{
              le_jeu = new Contexte_controleur(new Controleur_P4(ihm, type));
         }
         le_jeu.jouer();
 
     }
-
     
     public enum ModeGame{
     	SOLO, DUO ;

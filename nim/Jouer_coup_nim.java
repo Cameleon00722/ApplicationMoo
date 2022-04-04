@@ -49,8 +49,5 @@ public class Jouer_coup_nim implements IJouer_coup_nim{
         }
         ihm.afficherMsg("Nombre incorrect");
         return false;
-
     }
-
-
 }

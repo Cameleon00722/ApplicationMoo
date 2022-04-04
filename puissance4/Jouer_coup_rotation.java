@@ -52,7 +52,7 @@ public class Jouer_coup_rotation implements IJouer_un_coup{
             if(choix_direction.equals("droite")){
                 grille_P4.rotation_a_droite();
             }else{
-                grille_P4.rotation_gauche();
+                grille_P4.rotation_a_gauche();
             }
         }
         return resultat;

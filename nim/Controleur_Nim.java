@@ -1,31 +1,26 @@
 package com.company.nim;
 
+import com.company.Main2;
 import com.company.elements.IControleur;
 import com.company.elements.Ihm2;
 import com.company.elements.Joueur;
 import com.company.exceptions.CoupInvalideException;
+import com.company.ia.ArtificialIntelligence_Nim;
 
 public class Controleur_Nim implements IControleur {
     private final Ihm2 monIhm;
+    private final Main2.ModeGame modeGame ;
 
-    public Controleur_Nim(Ihm2 ihm){
+    public Controleur_Nim(Ihm2 ihm, Main2.ModeGame type){
         this.monIhm=ihm;
+        this.modeGame=type;
     }
 
     //méthodes pour le jeu de P4
     public Ihm2 getMonIhm() {
         return monIhm;
     }
-    /*public int saisie_colonne_valide(String colonne){
-        int a=-1;
-        try{
-            a=Integer.parseInt(colonne);
 
-        }catch(NumberFormatException e){
-            getMonIhm().afficherMsg("Format incorrect");
-        }
-        return a;
-    }*/
     public int saisie_nouv_partie_valide(String entree){
         int a=-1;
         try{
@@ -35,16 +30,7 @@ public class Controleur_Nim implements IControleur {
         }
         return a;
     }
-    /*public int saisie_jeu_valide(String entree){
-        int a=-1;
-        try{
-            a=Integer.parseInt(entree);
-        }catch(NumberFormatException e){
-            getMonIhm().afficherMsg("Format incorrect");
-        }
 
-        return a;
-    }*/
 
     // méthodes pour le Nim
 
@@ -86,7 +72,8 @@ public class Controleur_Nim implements IControleur {
     @Override
     public void jouer() {
         String nomj1 = getMonIhm().demandePrenom();
-        String nomj2 = getMonIhm().demandePrenom();
+        String nomj2 = modeGame == Main2.ModeGame.DUO ? getMonIhm().demandePrenom() : "IA" ;
+
         Joueur joueur1 = new Joueur(nomj1);
         Joueur joueur2 = new Joueur(nomj2);
 
@@ -118,17 +105,33 @@ public class Controleur_Nim implements IControleur {
 
             int i = 0;
             while (nbTotalAllumetteTable > 0) {
+                ArtificialIntelligence_Nim ia = new ArtificialIntelligence_Nim();
 
                 getMonIhm().afficherlesTas(tableDeJeux.toString());
                 Contexte_jouer_nim coup = new Contexte_jouer_nim(new Jouer_coup_nim());
-                int[] tab;
+                int[] tab={0,0};
                 if (i % 2 == 0) {
                     tab=coup.jouer(joueur1,monIhm,r);
                 } else {
-                    tab=coup.jouer(joueur2,monIhm,r);
+                    if(modeGame == Main2.ModeGame.SOLO) {
+                        // On prend la meilleure grille pouvant être
+                        // jouée par l'IA
+                        CoupNim coup_tmp=ia.IA_retour(r,Integer.parseInt(nombreTasDansPartie),tableDeJeux);
+
+                        tab[0]=coup_tmp.getNumeroTas();
+                        tab[1]=coup_tmp.getNbAllumettes();
+                        getMonIhm().afficherMsg(">> L'IA a joué son coup !");
+
+
+                    }else{
+                        tab=coup.jouer(joueur2,monIhm,r);
+                    }
                 }
+
+
                 nbTas=tab[0];
                 nbAllumettes=tab[1];
+
                 CoupNim coupJ = new CoupNim(nbTas, nbAllumettes);
                 try {
                     tableDeJeux.gererCoup(coupJ);
@@ -160,7 +163,7 @@ public class Controleur_Nim implements IControleur {
                     choix = res;
                 } else getMonIhm().afficherMsg("Saisie incorrecte, saisir 1 ou 2");
             }
-            //choix = getMonIhm().nouvellePartie();
+
         }
         getMonIhm().quiAGagne(compter, joueur1, joueur2);
     }

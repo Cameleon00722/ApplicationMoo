@@ -22,19 +22,10 @@ public class Ihm2 {
         System.out.println(joueur.getNom()+" a gagné");
     }
 
-    /*public String demandePrenom(){
-        String nomJoueur="nom par défault";
-        System.out.println("Saisir votre nom : ");
-        Scanner nomJ = new Scanner(System.in);
-        if (nomJ.hasNext()){
-            nomJoueur=nomJ.next();
-        }
-        return nomJoueur;
-    }*/
 
-    public int afficherlesTas(String lesTas){
+
+    public void afficherlesTas(String lesTas){
         System.out.println(lesTas);
-        return 0;
     }
 
     public String saisie_nb_tas() {
@@ -46,9 +37,7 @@ public class Ihm2 {
         }
         return nb_tas;
     }
-    /*public void afficherMsg(String msg){
-        System.out.println(msg);
-    }*/
+
 
     public String nouvellePartie(){
         String resultat="";
@@ -57,7 +46,6 @@ public class Ihm2 {
         if(nP.hasNext()){
             resultat=nP.next();
         }
-        //boolean saisieValide = false;
 
         return resultat;
 
@@ -122,9 +110,8 @@ public class Ihm2 {
          return resultat;
     }
 
-    public int afficherlaGrille(String laGrille){
+    public void afficherlaGrille(String laGrille){
         System.out.println(laGrille);
-        return 0;
     }
 
 
@@ -132,16 +119,7 @@ public class Ihm2 {
         System.out.println(msg);
     }
 
-    /*public String nouvellePartie(){
-        System.out.println("voulez vous faire une nouvelle partie? 1 si oui et 2 si non");
-        Scanner nP = new Scanner(System.in);
-        String resultat="";
-        if(nP.hasNextInt()){
-             resultat= nP.next();
-        }
-        return resultat;
 
-    }*/
     public void quiAGagne(int z, String j1, String j2,String nb_j1, String nb_j2){
         if (z>0){
             System.out.println(j1+" a gagné le jeu");

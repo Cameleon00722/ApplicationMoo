@@ -37,8 +37,6 @@ public class Grille {
     		for(int y=0 ; y<hauteur ; y++)
     			laGrille[x][y] = grid.getPion(x, y);
     	
-    	//grid.laGrille.clone() ;
-    	
     	this.dernier_pion_hauteur = grid.dernier_pion_hauteur ;
     	this.dernier_pion_largeur = grid.dernier_pion_largeur ;
     }
@@ -100,7 +98,7 @@ public class Grille {
         la_gravite();
     }
 
-    public void rotation_gauche(){
+    public void rotation_a_gauche(){
 
         List<Character> maListe1 = new ArrayList<>();
         List<Character> maListe2 = new ArrayList<>();
@@ -299,8 +297,6 @@ public class Grille {
                 contient(diagonale_decroissante(x,y), combo_gagnant);
 
     }
-    
-    
     
     public int getLargeur() {
     	return largeur ;
