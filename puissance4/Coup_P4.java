@@ -2,8 +2,8 @@ package com.company.puissance4;
 
 public class Coup_P4 {
 
-    private int colonne;
-    private char pion;
+    private final int colonne;
+    private final char pion;
 
     public Coup_P4(int colonne, char pion) {
 
@@ -17,5 +17,9 @@ public class Coup_P4 {
 
     public int getColonne() {
         return colonne;
+    }
+
+    public String toString(){
+        return "colonne :"+colonne;
     }
 }

@@ -2,22 +2,34 @@ package com.company.elements;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import com.company.exceptions.CoupInvalideException;
 import com.company.puissance4.Coup_P4;
 
 public class Grille {
 
-    private char[][] laGrille;
-    private int largeur,hauteur;;
+    private final char[][] laGrille;
+    private final int largeur;
+    private final int hauteur;
     private int dernier_pion_largeur =-1;
     private int dernier_pion_hauteur =-1;
+    private int nb_coup_joues;
 
+    public int getNb_coup_joues() {
+        return nb_coup_joues;
+    }
 
-    public Grille(int largeur,int hauteur){
+    public void setNb_coup_joues(int nb_coup_joues) {
+        this.nb_coup_joues = nb_coup_joues;
+    }
+
+    public Grille(int largeur, int hauteur){
         this.largeur=largeur;
         this.hauteur=hauteur;
+        nb_coup_joues=0;
 
         laGrille=new char[hauteur][largeur];
         for(int i=0;i<hauteur;i++){
@@ -40,8 +52,22 @@ public class Grille {
     	this.dernier_pion_hauteur = grid.dernier_pion_hauteur ;
     	this.dernier_pion_largeur = grid.dernier_pion_largeur ;
     }
-    
-    
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Grille grille = (Grille) o;
+        return largeur == grille.largeur && hauteur == grille.hauteur && dernier_pion_largeur == grille.dernier_pion_largeur && dernier_pion_hauteur == grille.dernier_pion_hauteur && nb_coup_joues == grille.nb_coup_joues && Arrays.deepEquals(laGrille, grille.laGrille);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(largeur, hauteur, dernier_pion_largeur, dernier_pion_hauteur, nb_coup_joues);
+        result = 31 * result + Arrays.deepHashCode(laGrille);
+        return result;
+    }
+
     public void rotation_a_droite(){
 
         List<Character> maListe1 = new ArrayList<>();
@@ -51,7 +77,6 @@ public class Grille {
         List<Character> maListe5 = new ArrayList<>();
         List<Character> maListe6 = new ArrayList<>();
         List<Character> maListe7 = new ArrayList<>();
-
 
         for(int i=0;i<hauteur;i++){
             maListe1.add(laGrille[i][0]);
@@ -168,56 +193,68 @@ public class Grille {
     }
 
     public String horizontale(int x){
-        String leRetour="";
+        StringBuilder leRetour= new StringBuilder();
         for(int i=0;i<largeur;i++){
-            leRetour+=laGrille[x][i];
+            leRetour.append(laGrille[x][i]);
         }
-        return leRetour;
+        return leRetour.toString();
     }
     public String verticale(int y){
-        String leRetour="";
+        StringBuilder leRetour= new StringBuilder();
         for(int i=0;i<hauteur;i++){
-            leRetour+=laGrille[i][y];
+            leRetour.append(laGrille[i][y]);
         }
-        return leRetour;
+        return leRetour.toString();
     }
 
     public String diagonale_decroissante(int x,int y){
-        String leRetour="";
+        StringBuilder leRetour= new StringBuilder();
         for (int h = 0; h < hauteur; h++) {
             int w = y + x - h;
 
             if (0 <= w && w < largeur) {
-                leRetour+=laGrille[h][w];
+                leRetour.append(laGrille[h][w]);
             }
         }
-        return leRetour;
+        return leRetour.toString();
     }
 
     public String diagonale_croissante(int x,int y){
-        String leRetour="";
+        StringBuilder leRetour= new StringBuilder();
         for (int h = 0; h < hauteur; h++) {
             int w = y - x + h;
 
             if (0 <= w && w < largeur) {
-                leRetour+=laGrille[h][w];
+                leRetour.append(laGrille[h][w]);
             }
         }
-        return leRetour;
+        return leRetour.toString();
     }
 
 
     @Override
     public String toString() {
-        String leRetour="";
+        StringBuilder leRetour= new StringBuilder();
+        leRetour.append("----".repeat(Math.max(0, largeur)));
+        leRetour.append("-");
+        leRetour.append("\n");
+
         for(int i=0;i<hauteur;i++){
             for(int j=0; j<largeur; j++){
-                leRetour+=laGrille[i][j];
+                leRetour.append("| ");
+                leRetour.append(laGrille[i][j]);
+                leRetour.append(" ");
+                if(j==largeur-1){
+                    leRetour.append("|");
+                }
 
             }
-            leRetour+="\n";
+            leRetour.append("\n");
+            leRetour.append("----".repeat(Math.max(0, largeur)));
+            leRetour.append("-");
+            leRetour.append("\n");
         }
-        return leRetour;
+        return leRetour.toString();
     }
 
 
@@ -243,11 +280,7 @@ public class Grille {
 
 
     public static boolean contient(String str, String substring) {
-        if(str.contains(substring)){
-            return true;
-        }else{
-            return false;
-        }
+        return str.contains(substring);
     }
     
     

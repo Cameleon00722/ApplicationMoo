@@ -1,45 +1,25 @@
 package com.company.puissance4;
 
-import java.util.Objects;
+import com.company.elements.Joueur;
 
-public class Joueur_P4 {
-    private String nom;
-    private int nbPartiesGagnees;
-    private char couleur_pion;
+public class Joueur_P4 extends Joueur {
 
+    private final char couleur_pion;
+    private int nb_rot_joues;
 
-    public Joueur_P4(String nom, char couleur) {
-        this.nom = nom;
-        this.couleur_pion=couleur;
+    public int getNb_rot_joues() {
+        return nb_rot_joues;
     }
 
+    public void setNb_rot_joues(int nb_coup_joues) {
+        this.nb_rot_joues = nb_coup_joues;
+    }
 
-    public String getNom() {
-        return nom;
+    public Joueur_P4(String nom, char couleur) {
+        super(nom);
+        this.couleur_pion=couleur;
+        nb_rot_joues=0;
     }
 
     public char getCouleur_pion(){return couleur_pion;}
-
-
-    public int getNbPartiesGagnees() {
-        return nbPartiesGagnees;
-    }
-
-
-    public void gagnePartie() {
-        nbPartiesGagnees++;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Joueur_P4 joueur = (Joueur_P4) o;
-        return nbPartiesGagnees == joueur.nbPartiesGagnees && Objects.equals(nom, joueur.nom);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(nom, nbPartiesGagnees);
-    }
 }

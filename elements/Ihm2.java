@@ -18,8 +18,8 @@ public class Ihm2 {
         }
         return leCoup;
     }
-    public void afficherGagnant(Joueur joueur){
-        System.out.println(joueur.getNom()+" a gagné");
+    public void afficherGagnant(String joueur){
+        System.out.println(joueur+" a gagné");
     }
 
 
@@ -28,55 +28,43 @@ public class Ihm2 {
         System.out.println(lesTas);
     }
 
-    public String saisie_nb_tas() {
-        String nb_tas="";
-        System.out.println("Saisir le nombre de tas");
+    public int saisie_nb_tas() {
+
+        System.out.println("Saisir le nombre de tas souhaité :");
         Scanner nb = new Scanner(System.in);
-        if (nb.hasNext()) {
-            nb_tas = nb.next();
+        int resultat=0;
+        if(nb.hasNextInt()){
+            resultat= nb.nextInt();
+            nb.nextLine();
         }
-        return nb_tas;
+        return resultat;
     }
 
 
-    public String nouvellePartie(){
-        String resultat="";
+    public int nouvellePartie(){
+        int resultat=0;
         System.out.println("voulez vous faire une nouvelle partie? 1 si oui et 2 si non");
         Scanner nP = new Scanner(System.in);
-        if(nP.hasNext()){
-            resultat=nP.next();
+        if(nP.hasNextInt()){
+            resultat=nP.nextInt();
+            nP.nextLine();
         }
-
         return resultat;
 
     }
-    public void quiAGagne(int z, Joueur j1, Joueur j2){
-        if (z>0){
-            System.out.println(j1.getNom()+" a gagné le jeu");
-            affichernombrepaetiegagner(j1);
-        }else if (z==0){
-            System.out.println("Egalité");
-        }else {
-            System.out.println(j2.getNom()+" a gagné le jeu");
-            affichernombrepaetiegagner(j2);
-        }
-    }
-    public void affichernombrepaetiegagner(Joueur j){
-        System.out.println("Nombre de parties gagnées : "+ j.getNbPartiesGagnees());
-    }
 
-    public String saisieColonne(String nom){
-        String leCoup="";
+
+
+    public int saisieColonne(String nom){
+
         System.out.println(nom+ " : à vous de jouer");
-        Scanner saisie_colonne = new Scanner(System.in);
-
-        if(saisie_colonne.hasNextLine()){
-            leCoup= saisie_colonne.nextLine();
+        Scanner rep = new Scanner(System.in);
+        int resultat=0;
+        if(rep.hasNextInt()){
+            resultat= rep.nextInt();
+            rep.nextLine();
         }
-        return leCoup;
-    }
-    public void afficherGagnant(String a){
-        System.out.println(a+" a gagné");
+        return resultat;
     }
 
     public String demandePrenom(){
@@ -99,16 +87,7 @@ public class Ihm2 {
         }
         return resultat;
     }
-    
-    public String demandeIA() {
-    	 System.out.println("À combien souhaitez-vous jouer ? (1 ou 2)");
-         Scanner ia = new Scanner(System.in);
-         String resultat="";
-         if(ia.hasNextInt()){
-             resultat= ia.next();
-         }
-         return resultat;
-    }
+
 
     public void afficherlaGrille(String laGrille){
         System.out.println(laGrille);
@@ -158,15 +137,25 @@ public class Ihm2 {
         }
         return res;
     }
-    public String demandeNbmaxcoup(){
-        System.out.println("Au maximun, combien souhaitez-vous retirer d'allumettes (Tapez 0 " +
-                "pour les règles classiques ou sinon un chffre ) ? ");
+    public String demandeIA(){
+        System.out.println("Tapez 1 pour jouer seul ou 2 pour jouer à deux.");
         Scanner rep = new Scanner(System.in);
         String res = "";
         if ((rep.hasNext())){
             res = rep.next();
         }
         return res;
+    }
+    public int demandeNbmaxcoup(){
+        System.out.println("Au maximun, combien souhaitez-vous retirer d'allumettes (Tapez 0 " +
+                "pour les règles classiques ou sinon un chffre ) ? ");
+        Scanner rep = new Scanner(System.in);
+        int resultat=0;
+        if(rep.hasNextInt()){
+            resultat= rep.nextInt();
+            rep.nextLine();
+        }
+        return resultat;
     }
     public void affichernombrepaetiegagner(String j){
         System.out.println("Nombre de parties gagnées : "+ j);

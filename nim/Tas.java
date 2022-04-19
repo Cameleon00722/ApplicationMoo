@@ -37,7 +37,7 @@ public class Tas  {
 
     /**
      * Retourne vrai si la partie est terminée et faux sinon
-     * @return
+     * @return nb
      */
     public boolean partieTerminee() {
         return nbAllumette() == 0;
@@ -79,7 +79,7 @@ public class Tas  {
 
     /**
      * modifie l'état de la partie en fonction du coup passé en paramètre
-     * @param coup
+     * @param coup un coup
      * @throws CoupInvalideException si le coup est invalide
      */
     public void gererCoup(CoupNim coup) throws CoupInvalideException {

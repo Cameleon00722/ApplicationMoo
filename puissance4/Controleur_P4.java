@@ -1,206 +1,124 @@
 package com.company.puissance4;
 
-import com.company.Main2.ModeGame;
+
+import com.company.IA.ArtificialIntelligenceImpl_P4;
+import com.company.IA.ArtificialIntelligence_P4;
 import com.company.elements.Grille;
 import com.company.elements.IControleur;
 import com.company.elements.Ihm2;
-import com.company.ia.ArtificialIntelligenceImpl_P4;
-import com.company.ia.ArtificialIntelligence_P4;
+import com.company.elements.Joueur;
 
 public class Controleur_P4 implements IControleur {
     private final Ihm2 monIhm;
-    private final ModeGame modeGame ;
 
-    public Controleur_P4(Ihm2 ihm, ModeGame type){
+
+    public Controleur_P4(Ihm2 ihm){
         this.monIhm=ihm;
-        this.modeGame = type ;
     }
-
     //méthodes pour le jeu de P4
     public Ihm2 getMonIhm() {
         return monIhm;
     }
 
-    public void jouer() {
+    public int choix_contrainte(){
+        int resultat=-1;
+        boolean rotation_de_la_grille=false;
+        while (!rotation_de_la_grille) {
 
-        boolean rotation_de_la_grille = false;
-        String on_joue_avec_rotation = "";
-
-        String nomj1 = getMonIhm().demandePrenom();
-        String nomj2 = modeGame == ModeGame.DUO ? getMonIhm().demandePrenom() : "IA" ;
-        
-        Joueur_P4 joueur1 = new Joueur_P4(nomj1,'r');
-        Joueur_P4 joueur2 = new Joueur_P4(nomj2,'j');
-
-        boolean  continuer_a_jouer=true;
-        int balance=0;
-        int nombre_de_coup;
-        boolean afficher_gagnants=true;
-        
-        
-        while(continuer_a_jouer){
-
-            rotation_de_la_grille=false;
-            while (!rotation_de_la_grille) {
-            	
-            	if(modeGame == ModeGame.SOLO) {
-            		getMonIhm().afficherMsg("Par défaut, vous jouez avec les rotations contre l'IA.");
-            		break ;
-            	}
-            	
-                String rot = getMonIhm().P4rotation();
-                if (rot.equals("oui") || rot.equals("non")) {
-                    rotation_de_la_grille = true;
-                    on_joue_avec_rotation = rot;
-                } else {
-                    getMonIhm().afficherMsg("Saisie incorrecte, saisir oui ou non ");
-                }
+            String rot = getMonIhm().P4rotation();
+            if (rot.equals("oui") ) {
+                rotation_de_la_grille = true;
+                resultat=1;
+            } else if( rot.equals("non")){
+                rotation_de_la_grille = true;
+                resultat=0;
             }
-
-            Grille grille_P4 = new Grille(7,7);
-            ArtificialIntelligenceImpl_P4<Grille> ia = new ArtificialIntelligence_P4() ;
-            
-            
-            int i=0;
-            nombre_de_coup=0;
-            int nb_rotations_effectuees_j1=0;
-            int nb_rotations_effectuees_j2=0;
-
-            while(!grille_P4.check_all_coup_gagnant()){
-
-                getMonIhm().afficherlaGrille(grille_P4.toString());
-
-                if (on_joue_avec_rotation.equals("oui") || modeGame == ModeGame.SOLO) {
-                    boolean rotation_effectuee=false;
-                    Contexte_jouer_coup_p4 coup_rot = new Contexte_jouer_coup_p4(new Jouer_coup_rotation());
-                    Contexte_jouer_coup_p4 un_coup = new Contexte_jouer_coup_p4(new Jouer_coup_p4());
-
-                    
-                    if (i % 2 == 0) {
-                        if(nb_rotations_effectuees_j1<4){
-                            rotation_effectuee=coup_rot.jouer(joueur1,monIhm,grille_P4);
-                            if(rotation_effectuee){
-                                nb_rotations_effectuees_j1=nb_rotations_effectuees_j1+1;
-                            }
-                        }
-
-                        if(grille_P4.check_all_coup_gagnant()){
-
-                            break;
-                        }
-
-
-                        if(!rotation_effectuee){
-                            if(un_coup.jouer(joueur1,monIhm,grille_P4)){
-                                nombre_de_coup=nombre_de_coup+1;
-                            }
-                        }
-                    } else {
-                    	
-                    	// Joueur 2 ou IA
-                    	
-                    	
-                    	// Si c'est une IA
-                    	if(modeGame == ModeGame.SOLO) {
-                    		// On prend la meilleure grille pouvant être
-                    		// jouée par l'IA
-                    		grille_P4 = ia.IA_retour(grille_P4) ;
-                    		getMonIhm().afficherMsg(">> L'IA a joué son coup !");
-                    		i++ ;
-                    		continue ;
-                    	}
-                    	
-                    	if(nb_rotations_effectuees_j2<4){
-                            rotation_effectuee=coup_rot.jouer(joueur2,monIhm,grille_P4);
-                            if(rotation_effectuee){
-                                nb_rotations_effectuees_j2=nb_rotations_effectuees_j2+1;
-                            }
-                        }
-
-                        if(grille_P4.check_all_coup_gagnant()){
-
-                            break;
-                        }
-
-
-                        if(!rotation_effectuee){
-                            if(un_coup.jouer(joueur2,monIhm,grille_P4)){
-                                nombre_de_coup=nombre_de_coup+1;
-                            }
-                        }
-                    }
-                    i = i + 1;
-                } else {
-                    Contexte_jouer_coup_p4 un_coup= new Contexte_jouer_coup_p4(new Jouer_coup_p4());
-                    if (i % 2 == 0) {
-                        if(un_coup.jouer(joueur1,monIhm,grille_P4)){
-                            nombre_de_coup=nombre_de_coup+1;
-                        }
-                    } else {
-                        if(un_coup.jouer(joueur2,monIhm,grille_P4)){
-                            nombre_de_coup=nombre_de_coup+1;
-                        }
-                    }
-                    i=i+1;
-                }
-
-                if(nombre_de_coup==(49)){
-                    break;
-                }
+            else {
+                getMonIhm().afficherMsg("Saisie incorrecte, saisir oui ou non ");
             }
-            getMonIhm().afficherMsg("------");
-            getMonIhm().afficherMsg("");
-            getMonIhm().afficherMsg("");
+        }
+        //renvoie 1 si on fait la rotation et 0 sinon
+        return resultat;
 
+    }
 
-            getMonIhm().afficherlaGrille(grille_P4.toString()) ;
+    public boolean partie_terminee(Object o){
+        Grille g= (Grille)o;
+        if(g==null) return true;
+        return g.check_all_coup_gagnant();
 
-            if(grille_P4.check_all_coup_gagnant()){
-                afficher_gagnants=true;
+    }
+
+    public Object corps_principal(Object plateau, Joueur joueur, int contrainte, int param_supp){
+        Joueur_P4 joueur_ = (Joueur_P4) joueur;
+        Grille grille_P4 = (Grille) plateau;
+        getMonIhm().afficherlaGrille(grille_P4.toString());
+        ArtificialIntelligenceImpl_P4<Grille> ia = new ArtificialIntelligence_P4() ;
+        if (joueur_.getNom().equals("IA")) {
+                //contrainte =1 si rotation et =0 si rien
+                // On prend la meilleure grille pouvant être
+                // jouée par l'IA
+                grille_P4 = ia.IA_retour(grille_P4,contrainte,monIhm) ;
+                getMonIhm().afficherMsg(">> L'IA a joué son coup !");
+                grille_P4.setNb_coup_joues(grille_P4.getNb_coup_joues()+1);
+
+        }
+        else {
+            Jouer_coup_p4 un_coup = new Jouer_coup_p4();
+            if(contrainte==1){
+                //le joueur joue avec rotation//
+                boolean rotation_effectuee=false;
+                Jouer_coup_rotation coup_rot = new Jouer_coup_rotation();
+
+                if(joueur_.getNb_rot_joues()<4){
+                   Grille temoin=coup_rot.jouer_le_coup(joueur_,monIhm,grille_P4);
+                    if(temoin!=null) {
+                        rotation_effectuee = true;
+                        grille_P4=temoin;
+                    }
+                    if(rotation_effectuee){
+                        joueur_.setNb_rot_joues(joueur_.getNb_rot_joues()+1);
+                    }
+                }
+                if(!rotation_effectuee){
+                    grille_P4=un_coup.jouer_le_coup(joueur_,monIhm,grille_P4);
+                    grille_P4.setNb_coup_joues(grille_P4.getNb_coup_joues()+1);
+                }
             }else{
-                afficher_gagnants=false;
-                getMonIhm().afficherMsg("Egalité, pas de gagnant pour cet partie");
-            }
-            if(afficher_gagnants){
-                if (i % 2 == 0) {
-                    getMonIhm().afficherGagnant(joueur2.getNom());
-                    joueur2.gagnePartie();
-                    balance = balance - 1;
-                } else {
-                    getMonIhm().afficherGagnant(joueur1.getNom());
-                    joueur1.gagnePartie();
-                    balance = balance + 1;
-                }
-            }
-            boolean continuer_nouvelle_partie=false;
-
-            while(!continuer_nouvelle_partie){
-                int res=saisie_nouv_partie_valide(getMonIhm().nouvellePartie());
-                if(res ==1){
-                    continuer_nouvelle_partie=true;
-                }
-                else if(res==2){
-                    continuer_nouvelle_partie=true;
-                    continuer_a_jouer=false;
-                }else{
-                    getMonIhm().afficherMsg("Saisie incorrecte, saisir 1 ou 2");
-                }
+                //le joueur joue sans rotation//
+                grille_P4=un_coup.jouer_le_coup(joueur_,monIhm,grille_P4);
+                grille_P4.setNb_coup_joues(grille_P4.getNb_coup_joues()+1);
             }
         }
-        getMonIhm().quiAGagne(balance,joueur1.getNom(),joueur2.getNom(), Integer.toString(joueur1.getNbPartiesGagnees()), Integer.toString(joueur2.getNbPartiesGagnees()));
-
-    }
-    public int saisie_nouv_partie_valide(String entree){
-        int a=-1;
-        try{
-            a=Integer.parseInt(entree);
-        }catch(NumberFormatException e){
-            getMonIhm().afficherMsg("Format incorrect");
+        if(grille_P4.getNb_coup_joues()==(49)){
+            grille_P4=null;
+           return grille_P4;
         }
-        return a;
+        return grille_P4;
     }
 
-	public ModeGame getModeGame() {
-		return modeGame;
-	}
+    @Override
+    public int get_param_plateau() {
+        return 7;
+    }
+
+    @Override
+    public boolean afficher_gagnants(Object o) {
+        Grille grille = (Grille) o;
+        boolean le_retour;
+        le_retour= grille.check_all_coup_gagnant();
+        return le_retour;
+    }
+
+    @Override
+    public void maj_joueur(Joueur[] joueurs) {
+        Joueur_P4[] players = (Joueur_P4[]) joueurs;
+        for(Joueur_P4 j : players){
+            j.setNb_rot_joues(0);
+        }
+    }
+
+    public Object creation_plateau(int i){
+        return new Grille(i,i);
+    }
 }

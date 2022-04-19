@@ -3,12 +3,12 @@ package com.company.nim;
 import com.company.elements.Ihm2;
 import com.company.elements.Joueur;
 
-public class Jouer_coup_nim implements IJouer_coup_nim{
+public class Jouer_coup_nim {
 
-    @Override
+
     public int[] jouer_un_coup_nim(Joueur joueur1,Ihm2 ihm, int r) {
         int[] retour = new int[2];
-        String unCoup = "";
+        String unCoup;
         boolean continuons1 = false;
         while (!continuons1) {
             unCoup = ihm.SaisieCoup(joueur1.getNom());

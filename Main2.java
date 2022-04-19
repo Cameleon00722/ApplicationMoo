@@ -25,27 +25,26 @@ public class Main2 {
             }
         }
 
-        /*  IA 	*/
         String joueAvecUneIA = "" ;
         ModeGame type = ModeGame.DUO ;
-        
+
         while(!joueAvecUneIA.equalsIgnoreCase("1") && !joueAvecUneIA.equalsIgnoreCase("2")) {
-        	joueAvecUneIA = ihm.demandeIA() ;
-        	if(joueAvecUneIA.equalsIgnoreCase("1")) type = ModeGame.SOLO ;
+            joueAvecUneIA = ihm.demandeIA() ;
+            if(joueAvecUneIA.equalsIgnoreCase("1")) type = ModeGame.SOLO ;
         }
+
 
         Contexte_controleur le_jeu;
         if(jeu==1){
-             le_jeu = new Contexte_controleur(new Controleur_Nim(ihm,type));
+             le_jeu = new Contexte_controleur(new Controleur_Nim(ihm), ihm, type);
         }else{
-             le_jeu = new Contexte_controleur(new Controleur_P4(ihm, type));
+             le_jeu = new Contexte_controleur(new Controleur_P4(ihm), ihm, type);
         }
         le_jeu.jouer();
 
     }
-    
-    public enum ModeGame{
-    	SOLO, DUO ;
-    }
 
+    public enum ModeGame{
+        SOLO, DUO ;
+    }
 }
